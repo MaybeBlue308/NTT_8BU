@@ -9,22 +9,22 @@ module bram_decode #(
     input  logic        start_decode,
     input  logic        is_NTT,
 
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
-    output logic [4:0]  addr_out_B,
+    output logic [4:0]  addr_out0,
+    output logic [4:0]  addr_out1,
+    output logic [4:0]  addr_out2,
+    output logic [4:0]  addr_out3,
+    output logic [4:0]  addr_out4,
+    output logic [4:0]  addr_out5,
+    output logic [4:0]  addr_out6,
+    output logic [4:0]  addr_out7,
+    output logic [4:0]  addr_out_0B,
+    output logic [4:0]  addr_out_1B,
+    output logic [4:0]  addr_out_2B,
+    output logic [4:0]  addr_out_3B,
+    output logic [4:0]  addr_out_4B,
+    output logic [4:0]  addr_out_5B,
+    output logic [4:0]  addr_out_6B,
+    output logic [4:0]  addr_out_7B,
 
     output logic [2:0]  done_decode
 );
@@ -331,7 +331,7 @@ module bram_decode #(
         .addr_out5B       (addr_out5B),
         .addr_out6B       (addr_out6B),
         .addr_out7B       (addr_out7B),         
-
+    );
     logic done_1;
     always_ff @(posedge clk_i) begin
         done_1          <= done;
