@@ -1,0 +1,19 @@
+{
+	"toolChain": "xilinx",
+	"prjName": {
+		"PL": "template"
+	},
+	"soc": {
+		"core": "none"
+	},
+	"device": "none",
+	"library": {
+		"state": "remote",
+		"hardware": {
+			"common": [
+				"Basic"
+			],
+			"custom": []
+		}
+	}
+}
