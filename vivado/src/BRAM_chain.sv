@@ -1,12 +1,15 @@
 module BRAM_chain #(
     parameter DATA_WIDTH = 12,
     parameter INPUT_WIDTH = DATA_WIDTH * 16,
-    parameter ADDR_WIDTH = 5
+    parameter ADDR_WIDTH = 5,
+    parameter DELAY_ADDR_WRITE = 7
     )(
     input logic                     clk_i,
     input logic                     rst_i,
-    input logic [1:0]               mode_BRAM,
+    input logic [2:0]               mode_BRAM,
     input logic                     start_BRAM_chain,
+    input logic                     start_BRAM_load,
+    input logic                     start_BRAM_write,
     input logic                     we,
     input logic [DATA_WIDTH-1:0]    data_load_a,
     input logic [DATA_WIDTH-1:0]    data_load_b,
@@ -65,6 +68,7 @@ module BRAM_chain #(
     output logic [DATA_WIDTH-1:0]   data_bram7B,
     );
 
+    logic [DATA_WIDTH]
     
     
 endmodule
