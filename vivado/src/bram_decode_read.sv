@@ -4,32 +4,32 @@ module bram_decode #(
     parameter ADW = 5
     )(
     //Ports
-    input  logic        clk_i,
-    input  logic        rst_i,
-    input  logic        start_decode,
-    input  logic        is_NTT,
+    input  logic            clk_i,
+    input  logic            rst_i,
+    input  logic            start_decode,
+    input  logic            is_NTT,
 
-    output logic [4:0]  addr_out0,
-    output logic [4:0]  addr_out1,
-    output logic [4:0]  addr_out2,
-    output logic [4:0]  addr_out3,
-    output logic [4:0]  addr_out4,
-    output logic [4:0]  addr_out5,
-    output logic [4:0]  addr_out6,
-    output logic [4:0]  addr_out7,
-    output logic [4:0]  addr_out_0B,
-    output logic [4:0]  addr_out_1B,
-    output logic [4:0]  addr_out_2B,
-    output logic [4:0]  addr_out_3B,
-    output logic [4:0]  addr_out_4B,
-    output logic [4:0]  addr_out_5B,
-    output logic [4:0]  addr_out_6B,
-    output logic [4:0]  addr_out_7B,
+    output logic [ADW-1:0]  addr_out0,
+    output logic [ADW-1:0]  addr_out1,
+    output logic [ADW-1:0]  addr_out2,
+    output logic [ADW-1:0]  addr_out3,
+    output logic [ADW-1:0]  addr_out4,
+    output logic [ADW-1:0]  addr_out5,
+    output logic [ADW-1:0]  addr_out6,
+    output logic [ADW-1:0]  addr_out7,
+    output logic [ADW-1:0]  addr_out_0B,
+    output logic [ADW-1:0]  addr_out_1B,
+    output logic [ADW-1:0]  addr_out_2B,
+    output logic [ADW-1:0]  addr_out_3B,
+    output logic [ADW-1:0]  addr_out_4B,
+    output logic [ADW-1:0]  addr_out_5B,
+    output logic [ADW-1:0]  addr_out_6B,
+    output logic [ADW-1:0]  addr_out_7B,
 
-    output logic [2:0]  done_decode
+    output logic [7:0]      olen,
+    output logic [2:0]      done_decode
 );
 
-    logic [7:0] olen;
     logic [7:0] addr_core0, addr_core1, addr_core2, addr_core3, addr_core4, addr_core5, addr_core6, addr_core7; 
     logic [6:0] addr_zeta0, addr_zeta1, addr_zeta2, addr_zeta3, addr_zeta4, addr_zeta5, addr_zeta6, addr_zeta7;
     logic done;
@@ -38,28 +38,28 @@ module bram_decode #(
     .ADDR_ZETA(7)
     )
     GenAddress_inst (
-    .clk_i          (clk_i),
-    .rst_i          (rst_i),
-    .start_decode   (start_decode),
-    .is_NTT         (is_NTT),
-    .addr_core0     (addr_core0),
-    .addr_core1     (addr_core1),
-    .addr_core2     (addr_core2),
-    .addr_core3     (addr_core3),
-    .addr_core4     (addr_core4),
-    .addr_core5     (addr_core5),
-    .addr_core6     (addr_core6),
-    .addr_core7     (addr_core7),
-    .olen           (olen),
-    .addr_zeta0     (addr_zeta0),
-    .addr_zeta1     (addr_zeta1),
-    .addr_zeta2     (addr_zeta2),
-    .addr_zeta3     (addr_zeta3),
-    .addr_zeta4     (addr_zeta4),
-    .addr_zeta5     (addr_zeta5),
-    .addr_zeta6     (addr_zeta6),
-    .addr_zeta7     (addr_zeta7),
-    .done_o         (done)
+        .clk_i          (clk_i),
+        .rst_i          (rst_i),
+        .start_decode   (start_decode),
+        .is_NTT         (is_NTT),
+        .addr_core0     (addr_core0),
+        .addr_core1     (addr_core1),
+        .addr_core2     (addr_core2),
+        .addr_core3     (addr_core3),
+        .addr_core4     (addr_core4),
+        .addr_core5     (addr_core5),
+        .addr_core6     (addr_core6),
+        .addr_core7     (addr_core7),
+        .olen           (olen),
+        .addr_zeta0     (addr_zeta0),
+        .addr_zeta1     (addr_zeta1),
+        .addr_zeta2     (addr_zeta2),
+        .addr_zeta3     (addr_zeta3),
+        .addr_zeta4     (addr_zeta4),
+        .addr_zeta5     (addr_zeta5),
+        .addr_zeta6     (addr_zeta6),
+        .addr_zeta7     (addr_zeta7),
+        .done_o         (done)
     );
 
     logic [7:0] addr_core0_B, addr_core1_B, addr_core2_B, addr_core3_B, addr_core4_B, addr_core5_B, addr_core6_B, addr_core7_B; 
