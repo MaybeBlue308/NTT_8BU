@@ -8,9 +8,9 @@ module Controller_NTT #(
 )(
     input logic clk_i,
     input logic rst_i,
-    input logic start_i,
+    input logic start,
     input logic done_gen_addr,
-    input logic is NTT,
+    input logic is_NTT,
     input logic valid_input,
     input logic [INPUT_WIDTH-1:0] din,
 
@@ -48,6 +48,7 @@ module Controller_NTT #(
     logic [6:0]     compute_count;
     logic [191:0]   din_reg;
     logic [1:0]     count_write;
+    logic [3:0]     count_all;
 
     always @(posedge clk_i) begin
         din_reg     <= din;

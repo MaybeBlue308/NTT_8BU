@@ -1,5 +1,5 @@
 
-module bram_decode #(
+module bram_decode_read #(
     parameter DATA_WIDTH = 12,
     parameter ADW = 5
     )(
@@ -27,7 +27,7 @@ module bram_decode #(
     output logic [ADW-1:0]  addr_out_7B,
 
     output logic [7:0]      olen,
-    output logic [2:0]      done_decode
+    output logic            done_decode
 );
 
     logic [7:0] addr_core0, addr_core1, addr_core2, addr_core3, addr_core4, addr_core5, addr_core6, addr_core7; 
@@ -332,12 +332,9 @@ module bram_decode #(
         .addr_out6B       (addr_out6B),
         .addr_out7B       (addr_out7B),         
     );
-    logic done_1;
     always_ff @(posedge clk_i) begin
-        done_1          <= done;
-        done_decode     <= done_1;
+        done_decode          <= done;
     end
-    assign done_o = done;
 
 endmodule
 
