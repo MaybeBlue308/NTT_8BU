@@ -1,0 +1,1 @@
+{workspace}/vivado/src/BRAM_chain.sv:479: ERROR: Insufficient number of array indices for addr_write_delay.

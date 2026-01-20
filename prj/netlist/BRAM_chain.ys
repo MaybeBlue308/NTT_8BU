@@ -1,0 +1,3 @@
+read_verilog -sv -formal -overwrite {workspace}/vivado/src/BRAM_chain.sv
+design -reset-vlog; proc;
+write_json {workspace}/prj/netlist/BRAM_chain.json
