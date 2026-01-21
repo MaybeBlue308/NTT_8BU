@@ -13,6 +13,7 @@ module Barret #(
     localparam signed [44:0] QMOD = 45'd3329;
     // Mở rộng dấu C lên 45 bit ngay từ đầu
     logic signed [44:0] C45 = 45'(C);
+    assign C45 = {{(45 - (WIDTH*2)){C[(WIDTH*2)-1]}}, C};
     // Chỉ giữ lại các thanh ghi thực sự sử dụng
     logic signed [44:0] s0;
     logic signed [44:0] s1;
