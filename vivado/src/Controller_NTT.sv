@@ -2,9 +2,10 @@ module Controller_NTT #(
     parameter DATA_WIDTH = 12,
     parameter ADDR_WIDTH = 5,
     parameter INPUT_WIDTH = 192,
+    parameter DECO_LATE = 2,
     parameter BU_LATE = 7,
-    parameter MAX_CAL = 8,
-    parameter WRITE_BACK_LATE = 2
+    parameter MAX_CAL = 7,
+    parameter WRITE_BACK_LATE = 1
 )(
     input logic clk_i,
     input logic rst_i,
@@ -49,6 +50,7 @@ module Controller_NTT #(
     //logic [191:0]   din_reg;
     logic [1:0]     count_write;
     logic [3:0]     count_all;
+    logic [1:0]     count_dec;
 
     // always @(posedge clk_i) begin
     //     din_reg <= din;
@@ -125,7 +127,7 @@ module Controller_NTT #(
                         // Extract 12-bit data from 192-bit input
                         // din[191:180] = first 12 bits, din[179:168] = second 12 bits, etc.
                         din_load_a      <= coeff_buff[{count_load, 1'b0}];      // Even position
-                        din_load_b      <= coeff_buff[{count_load, 1'b0}]; // Odd position
+                        din_load_b      <= coeff_buff[{count_load, 1'b1}]; // Odd position
                         
                         // Set write enable for current BRAM
                         case (bram_load_index)
@@ -168,8 +170,10 @@ module Controller_NTT #(
                     start_decode        <= 1'b1;
                     is_NTT_decode       <= is_NTT_load;
                     if (done_gen_addr) begin
-                        state           <= READ;
-                        start_decode    <= 1'b0;
+                        if (count_dec == DECO_LATE - 1) begin
+                            state           <= READ;
+                            start_decode    <= 1'b0;
+                        end
                     end
                 end
 
