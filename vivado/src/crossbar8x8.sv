@@ -2,7 +2,6 @@ module crossbar_8x8 #(
     parameter ADW = 5
 )(
     input logic [ADW-1:0] addr_in0,
-    input logic [ADW-1:0] addr_in0,
     input logic [ADW-1:0] addr_in1,
     input logic [ADW-1:0] addr_in2,
     input logic [ADW-1:0] addr_in3,
@@ -34,9 +33,7 @@ module crossbar_8x8 #(
     input logic [2:0] index5_B,
     input logic [2:0] index6_B,
     input logic [2:0] index7_B,
-    output logic [ADW-1:0] addr_out0,
-    output logic [ADW-1:0] addr_out0,
-    output logic [ADW-1:0] addr_out0,
+
     output logic [ADW-1:0] addr_out0,
     output logic [ADW-1:0] addr_out1,
     output logic [ADW-1:0] addr_out2,
