@@ -6,7 +6,8 @@ module Controller_NTT #(
     parameter DECO_LATE = 2,
     parameter BU_LATE = 7,
     parameter MAX_CAL = 7,
-    parameter WRITE_BACK_LATE = 1
+    parameter WRITE_BACK_LATE = 1,
+    parameter EXEC_CYCLE = 120
 )(
     input logic clk_i,
     input logic rst_i,
@@ -21,6 +22,7 @@ module Controller_NTT #(
 
     output logic start_decode,
     output logic start_BU_choose,
+    output logic start_BRAM_exec,
     output logic start_BRAM_chain,
     output logic start_BRAM_load,
     output logic start_BRAM_write,
@@ -28,7 +30,10 @@ module Controller_NTT #(
     output logic is_NTT_decode,
     output logic is_NTT_BU_choose,
     output logic is_NTT_output,
+
     output logic is_NTT_load,
+    output logic is_NTT_exec,
+
     output logic is_NTT_read,
 
     output logic [7:0] we,
@@ -37,22 +42,21 @@ module Controller_NTT #(
     localparam IDLE = 3'b000;
     localparam LOAD = 3'b001;
     localparam DECO = 3'b010;
-    localparam READ = 3'b011;
-    localparam CALC = 3'b100;
-    localparam WRIB = 3'b101;
+    localparam EXEC = 3'b011;
     localparam DONE = 3'b110;
 
     logic [2:0]     state;
     logic [2:0]     count_load;
-    logic [3:0]     bram_load_index;
+    logic [3:0]     bram_load_index, bram_index;
     logic [1:0]     count_time;
     logic           valid_input_load;
     logic [3:0]     count_calc;
     logic [1:0]     count_write;
-    logic [3:0]     count_all;
     logic [1:0]     count_dec;
+    logic [6:0]     count_exec;
 
     logic [11:0] coeff_buff [0:15];
+    
     genvar k;
     generate
         for (k = 0; k < 16; k = k + 1) begin: GEN_COEF
@@ -66,11 +70,13 @@ module Controller_NTT #(
             we                  <= '0;
             start_decode        <= 1'b0;
             start_BU_choose     <= 1'b0;
+            start_BRAM_exec     <= 1'b0;
             start_BRAM_chain    <= 1'b0;
             start_BRAM_load     <= 1'b0;
             start_BRAM_write    <= 1'b0;
             is_NTT_decode       <= 1'b0;
             is_NTT_BU_choose    <= 1'b0;
+            is_NTT_exec         <= 1'b0;
             is_NTT_output       <= 1'b0;
             is_NTT_read         <= 1'b0;
             done_all            <= 1'b0;
@@ -79,15 +85,23 @@ module Controller_NTT #(
             count_calc          <= '0;
             bram_load_index     <= '0;
             bram_index          <= '0;
+            count_dec           <= '0;
+            count_exec          <= '0;
+
             count_time          <= '0;
             count_load          <= '0;
-            count_dec           <= '0;
+            din_load_a          <= '0;
+            din_load_b          <= '0;
+            addr_load_a         <= '0;
+            addr_load_b         <= '0;
         end else begin
             case (state)
                 IDLE : begin
                     we                  <= '0;
                     start_decode        <= 1'b0;
                     start_BU_choose     <= 1'b0;
+                    start_BRAM_exec     <= 1'b0;
+                    start_BRAM_read     <= 1'b0;
                     start_BRAM_chain    <= 1'b0;
                     start_BRAM_load     <= 1'b0;
                     start_BRAM_write    <= 1'b0;
@@ -95,9 +109,12 @@ module Controller_NTT #(
                     is_NTT_decode       <= 1'b0;
                     is_NTT_BU_choose    <= 1'b0;
                     is_NTT_output       <= 1'b0;
-                    is_NTT_read         <= 1'b0;
+                    is_NTT_exec         <= 1'b0;
 
                     done_all            <= 1'b0;
+                    count_dec           <= '0;
+                    
+                    count_exec          <= '0;
                     count_all           <= '0;
                     count_write         <= '0;
                     count_calc          <= '0;
@@ -113,9 +130,10 @@ module Controller_NTT #(
                 end 
                 
                 LOAD : begin
-                    start_BRAM_load     <= 1'b1;
+                    
                     
                     if (valid_input) begin
+                        start_BRAM_load     <= 1'b1;
                         // Calculate address: base_addr = count_time * 16 + count_load
                         // For port A: addr = {count_time, count_load[3:0], 1'b0}
                         // For port B: addr = {count_time, count_load[3:0], 1'b1}
@@ -145,7 +163,7 @@ module Controller_NTT #(
                             count_load <= '0;
                             if (count_time == 1) begin  // count_time: 0 or 1
                                 count_time <= '0;
-                                if (bram_load_index == 7) begin  // All 8 BRAMs loaded
+                                if (bram_load_index == 8) begin  // All 8 BRAMs loaded
                                     bram_load_index <= '0;
                                     state <= DECO;
                                     we <= '0;
@@ -175,43 +193,17 @@ module Controller_NTT #(
                     end
                 end
 
-                READ : begin
-                    start_BRAM_chain    <= 1'b1;
-                    is_NTT_read         <= is_NTT_decode;
-                    state               <= CALC;
-                end
-
-                CALC : begin
-                    start_BRAM_chain    <= 1'b0;
-                    start_BU_choose     <= 1'b1;
-                    is_NTT_BU_choose    <= is_NTT_read;
-                    is_NTT_output       <= is_NTT_read;
-                    count_calc          <= count_calc + 1'b1;
-                    
-                    if (count_calc == BU_LATE - 1) begin
-                        count_calc      <= '0;
-                        state           <= WRIB;
-                    end 
-                end
-
-                WRIB: begin
-                    we                  <= 8'b11111111;
-                    start_BRAM_write    <= 1'b1;
-                    start_BU_choose     <= 1'b0;
-                    count_write         <= count_write + 1'b1;
-
-                    if (count_write == WRITE_BACK_LATE - 1) begin
-                        count_write     <= '0;
-                        we              <= '0;
-                        start_BRAM_write <= 1'b0;
-                        count_all       <= count_all + 1'b1;
-
-                        if (count_all == MAX_CAL - 1) begin
-                            state       <= DONE;
+                EXEC: begin
+                    count_exec          <= count_exec + 1'b1;
+                    start_BRAM_exec     <= 1'b1;
+                    is_NTT_exec         <= is_NTT_decode;
+                    if (count_exec == EXEC_CYCLE - 1) begin
+                        state           <= DONE;
+                        count_exec      <= '0;
+                        start_BRAM_exec <= '0;
                         end else begin
-                            state       <= READ;
-                        end
-                    end
+                            start_BU_choose <= 1'b1;
+                            
                 end
 
                 DONE: begin
