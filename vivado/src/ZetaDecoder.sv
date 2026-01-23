@@ -2,7 +2,7 @@ module ZetaDecoder #(
 parameter int ADDR_WIDTH = 7
 )(
     input   logic [7:0] len,
-    input   logic is_NTT
+    input   logic is_NTT,
     output  logic [ADDR_WIDTH-1:0] addr_zeta0,
     output  logic [ADDR_WIDTH-1:0] addr_zeta1,
     output  logic [ADDR_WIDTH-1:0] addr_zeta2,

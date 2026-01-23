@@ -1,5 +1,3 @@
-
-
 module bram_tdp #(
     parameter DATA_WIDTH = 12,
     parameter ADW = 5,
