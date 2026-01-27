@@ -270,7 +270,7 @@ module Controller_NTT #(
     logic [11:0] coeff_buff [0:15];
     genvar k;
     generate
-        for (k = 0; k < 16; k = k + 1) begin: GEN_COEF
+        for (k = 0; k < 16; k = k + 1) begin: COEFF_BUFF
             assign coeff_buff [k] = din[191 - k*12 -:12];
         end
     endgenerate
