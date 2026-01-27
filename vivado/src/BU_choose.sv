@@ -82,20 +82,20 @@ module BU_chose #(
             case (len_BU)
                 8'd128 : begin
                     in_BU0      = data_bram0;
-                    in_BU1      = data_bram2;
-                    in_BU2      = data_bram4;
-                    in_BU3      = data_bram6;
-                    in_BU4      = data_bram0B;
+                    in_BU1      = data_bram0B;
+                    in_BU2      = data_bram1;
+                    in_BU3      = data_bram1B;
+                    in_BU4      = data_bram2;
                     in_BU5      = data_bram2B;
-                    in_BU6      = data_bram4B;
-                    in_BU7      = data_bram6B;
-                    in_BU0_B    = data_bram1;
-                    in_BU1_B    = data_bram3;
+                    in_BU6      = data_bram3;
+                    in_BU7      = data_bram3B;
+                    in_BU0_B    = data_bram4;
+                    in_BU1_B    = data_bram4B;
                     in_BU2_B    = data_bram5;
-                    in_BU3_B    = data_bram7;
-                    in_BU4_B    = data_bram1B;
-                    in_BU5_B    = data_bram3B;
-                    in_BU6_B    = data_bram5B;
+                    in_BU3_B    = data_bram5B;
+                    in_BU4_B    = data_bram6;
+                    in_BU5_B    = data_bram6B;
+                    in_BU6_B    = data_bram7;
                     in_BU7_B    = data_bram7B;
                 end
                 8'd64 : begin
