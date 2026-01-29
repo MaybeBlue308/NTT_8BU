@@ -1,4 +1,4 @@
-module BRAM_chain #(
+module BRAM_x8 #(
     parameter DATA_WIDTH = 12,
     parameter INPUT_WIDTH = DATA_WIDTH * 16,
     parameter ADDR_WIDTH = 5,
@@ -208,10 +208,7 @@ module BRAM_chain #(
         .din_a      (din7b),
         .dout_a     (data_bram7B),
    );
-    
-    //========================================
     // Address delay pipeline for write-back
-    //========================================
     always_ff @(posedge clk_i or posedge rst_i) begin
         if (rst_i) begin
             for (int i = 0; i < DELAY_ADDR_WRITE; i++) begin
@@ -219,7 +216,7 @@ module BRAM_chain #(
                     addr_write_delay[i][j] <= '0;
                 end
             end
-        end else if (start_BRAM_chain) begin
+        end else if (start_BRAM_exec) begin
             // Always delay read addresses for future write-back
             addr_write_delay[0][0]  <= addr_out0;
             addr_write_delay[0][1]  <= addr_out1;
@@ -243,10 +240,7 @@ module BRAM_chain #(
             end
         end
     end
-
-    //========================================
     // BRAM control logic - NO FIFO NEEDED!
-    //========================================
     always_ff @(posedge clk_i or posedge rst_i) begin
         if (rst_i) begin
             din0a <= '0; din0b <= '0;
@@ -277,15 +271,6 @@ module BRAM_chain #(
             addrw_in7  <= '0; addrw_in7B  <= '0;
         end else begin
             // Default: clear data inputs
-            din0a <= '0; din0b <= '0;
-            din1a <= '0; din1b <= '0;
-            din2a <= '0; din2b <= '0;
-            din3a <= '0; din3b <= '0;
-            din4a <= '0; din4b <= '0;
-            din5a <= '0; din5b <= '0;
-            din6a <= '0; din6b <= '0;
-            din7a <= '0; din7b <= '0;
-            
             if (start_BRAM_load) begin
                 din0a <= data_load_a; din0b <= data_load_b;
                 din1a <= data_load_a; din1b <= data_load_b;
@@ -316,10 +301,7 @@ module BRAM_chain #(
                 addrw_in7  <= addr_load_a; addrw_in7B <= addr_load_b;
             end 
             else begin
-                // EXECUTION MODE - Separate READ and WRITE addresses
-                
-                // READ addresses - Always from GenAddress when reading
-                if (start_BRAM_chain) begin
+                if (start_BRAM_exec) begin
                     if (len_BRAM_chain == 8'd128) begin
                         addr_in0  <= addr_out0;
                         addr_in1  <= addr_out2;
@@ -447,7 +429,6 @@ module BRAM_chain #(
                         addr_in7B <= addr_out7B;
                     end
                 end
-                
                 // WRITE addresses and data - From delayed pipeline
                 if (start_BRAM_write) begin
                     din0a <= data_in0;  din0b <= data_in0B;

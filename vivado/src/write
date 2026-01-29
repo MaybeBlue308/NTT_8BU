@@ -1,0 +1,126 @@
+    if (len_BRAM_chain == 8'd128) begin
+        din0  <= data_in0;
+        din1  <= data_in2;
+        din2  <= data_in4;
+        din3  <= data_in6;
+        din4  <= data_in0B;
+        din5  <= data_in2B;
+        din6  <= data_in4B;
+        din7  <= data_in6B;
+        din0B <= data_in1;
+        din1B <= data_in3;
+        din2B <= data_in5;
+        din3B <= data_in7;
+        din4B <= data_in1B;
+        din5B <= data_in3B;
+        din6B <= data_in5B;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd64) begin
+        din0  <= data_in0;
+        din1  <= data_in2;
+        din2  <= data_in0B;
+        din3  <= data_in2B;
+        din4  <= data_in4;
+        din5  <= data_in6;
+        din6  <= data_in4B;
+        din7  <= data_in6B;
+        din0B <= data_in1;
+        din1B <= data_in3;
+        din2B <= data_in1B;
+        din3B <= data_in3B;
+        din4B <= data_in5;
+        din5B <= data_in7;
+        din6B <= data_in5B;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd32) begin
+        din0  <= data_in0;
+        din1  <= data_in0B;
+        din2  <= data_in2;
+        din3  <= data_in2B;
+        din4  <= data_in4;
+        din5  <= data_in4B;
+        din6  <= data_in6;
+        din7  <= data_in6B;
+        din0B <= data_in1;
+        din1B <= data_in1B;
+        din2B <= data_in3;
+        din3B <= data_in3B;
+        din4B <= data_in5;
+        din5B <= data_in5B;
+        din6B <= data_in7;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd16) begin
+        din0  <= data_in0;
+        din1  <= data_in1;
+        din2  <= data_in2;
+        din3  <= data_in3;
+        din4  <= data_in4;
+        din5  <= data_in5;
+        din6  <= data_in6;
+        din7  <= data_in7;
+        din0B <= data_in0B;
+        din1B <= data_in1B;
+        din2B <= data_in2B;
+        din3B <= data_in3B;
+        din4B <= data_in4B;
+        din5B <= data_in5B;
+        din6B <= data_in6B;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd8) begin
+        din0  <= data_in0;
+        din1  <= data_in1;
+        din2  <= data_in2;
+        din3  <= data_in3;
+        din4  <= data_in4;
+        din5  <= data_in5;
+        din6  <= data_in6;
+        din7  <= data_in7;
+        din0B <= data_in0B;
+        din1B <= data_in1B;
+        din2B <= data_in2B;
+        din3B <= data_in3B;
+        din4B <= data_in4B;
+        din5B <= data_in5B;
+        din6B <= data_in6B;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd4) begin
+        din0  <= data_in0;
+        din1  <= data_in1;
+        din2  <= data_in2;
+        din3  <= data_in3;
+        din4  <= data_in4;
+        din5  <= data_in5;
+        din6  <= data_in6;
+        din7  <= data_in7;
+        din0B <= data_in0B;
+        din1B <= data_in1B;
+        din2B <= data_in2B;
+        din3B <= data_in3B;
+        din4B <= data_in4B;
+        din5B <= data_in5B;
+        din6B <= data_in6B;
+        din7B <= data_in7B;
+    end
+    if (len_BRAM_chain == 8'd2) begin
+        din0  <= data_in0;
+        din1  <= data_in1;
+        din2  <= data_in2;
+        din3  <= data_in3;
+        din4  <= data_in4;
+        din5  <= data_in5;
+        din6  <= data_in6;
+        din7  <= data_in7;
+        din0B <= data_in0B;
+        din1B <= data_in1B;
+        din2B <= data_in2B;
+        din3B <= data_in3B;
+        din4B <= data_in4B;
+        din5B <= data_in5B;
+        din6B <= data_in6B;
+        din7B <= data_in7B;
+    end
